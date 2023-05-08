@@ -145,7 +145,6 @@ export default {
       }
     },
     async Submit() {
-      alert(this.selectedValue)
         if(this.selectedValue == "mise")
         {
             await this.AddMise()
