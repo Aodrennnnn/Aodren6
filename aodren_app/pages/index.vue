@@ -1,18 +1,32 @@
 <template>
+  <div>
+    <div class="top-layer">
+      <div class="logo">
+        <img src="../logo.png" alt="Logo">
+      </div>
+      <div class="main-title">
+        <h1>Suivi Stock de Surplus</h1>
+      </div>
+      <div class="clock">
+        {{ currentTime }}
+      </div>
+    </div>
   <div class="container">
     <div class="left-section">
       <h2>Stock</h2>
+      <form>
       <div>
         <label for="produit">Produit:</label>
         <select id="produit" v-model="selectedProduit" @change="fetchTableauData">
           <option v-for="produit in produits" :value="produit.id" :key="produit.id">{{ produit.nom }}</option>
         </select>
       </div>
+    </form>
       <div>
         <table>
           <tr>
             <th>Pièce</th>
-            <th>Quantité</th>
+            <th>Quantité en Stock</th>
           </tr>
           <tr v-for="(row, index) in tableauData" :key="index">
             <td>{{ row.nom }}</td>
@@ -45,8 +59,9 @@
 
         <div class="form-row">
           <label for="date">Date:</label>
-          <input type="date" id="date" v-model="date" required>
+          <input type="date" id="date"  :value="getCurrentDate()" required>
         </div>
+
 
         <div class="form-row" id="pole-row">
           <label for="pole">Pôle :</label>
@@ -81,11 +96,22 @@
       </form>
     </div>
   </div>
+    </div>
 </template>
 
 <script>
 
+
 export default {
+
+  mounted() {
+    this.updateCurrentTime();
+    setInterval(() => {
+      this.updateCurrentTime();
+    }, 1000);
+  },
+
+
   async fetch() {
     try {
       const response = await fetch('http://localhost:5000/getproduits');
@@ -99,9 +125,11 @@ export default {
       console.error(error);
     }
   },
+
   data() {
     return {
       date: undefined,
+      currentTime: '',
       quantiteSelected: undefined,
       selectedProduit: '',
       selectedPiece: undefined,
@@ -110,13 +138,41 @@ export default {
       selectedCause: '',
       selectedProduit2: '',
       produits: [],
-      causes: [{ id: 1, nom: "cause1" }, { id: 2, nom: "cause2" }, { id: 3, nom: "cause3" }],
-      poles: [{ id: 1, nom: "pole1" }, { id: 2, nom: "pole2" }, { id: 3, nom: "pole3" }],
+      causes: [{ id: 1, nom: "KO" }, { id: 2, nom: "Manque Train" }, { id: 3, nom: "Autre" }],
+      poles: [{ id: 1, nom: "Coloration" }, { id: 2, nom: "Coupe" }, { id: 3, nom: "Embossage/Filetage" }, { id: 1, nom: "Encollage / Rembordage" }, { id: 1, nom: "Marquage" }, { id: 1, nom: "Parage / Refente" }, { id: 1, nom: "Piquage Main" }, { id: 1, nom: "Préguttage / Guttage" }, { id: 1, nom: "Surcoupe" }],
       tableauData: [],
       tableauData2: [],
     };
   },
   methods: {
+
+
+    getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    // Formatage du mois et du jour sur deux chiffres
+    if (month < 10) {
+      month = '0' + month;
+    }
+    if (day < 10) {
+      day = '0' + day;
+    }
+
+    return `${year}-${month}-${day}`;
+  },
+
+
+
+    updateCurrentTime() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+      this.currentTime = `${hours}:${minutes}:${seconds}`;
+    },
     async fetchTableauData() {
       try {
         const response = await fetch(`http://localhost:5000/getproduit/${this.selectedProduit}`);
@@ -220,21 +276,23 @@ h2 {
 
 
 .logo {
+  height: 50px;
   padding-left: 30px;
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
 .clock {
   padding-right: 30px;
-  padding-top: 30px;
+  padding-top: 22px;
   font-size: 42px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .main-title {
+  padding-top: 10px;
   flex-grow: 1;
   text-align: center;
-  font-size: 52px;
+  font-size: 28px;
   justify-content: center;
 }
 
@@ -316,7 +374,7 @@ form {
   font-size: 24px;
   font-family: Arial, Helvetica, sans-serif;
   max-width: 700px;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 form input,
