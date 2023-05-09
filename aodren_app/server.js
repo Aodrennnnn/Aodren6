@@ -56,6 +56,7 @@ app.post('/addprise', (req, res) => {
 
 app.post('/addmise', (req, res) => {
   const { pole, id_piece, quantite, date } = req.body;
+  console.log("date"+date)
   console.log(req.body)
   // Vérifier si toutes les données nécessaires sont fournies
   if (!pole || !id_piece || !quantite || !date) {

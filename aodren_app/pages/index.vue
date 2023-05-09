@@ -24,6 +24,7 @@
     </form>
       <div>
         <table>
+        <tbody>
           <tr>
             <th>Pièce</th>
             <th>Quantité en Stock</th>
@@ -32,6 +33,7 @@
             <td>{{ row.nom }}</td>
             <td>{{ row.stock }}</td>
           </tr>
+        </tbody>
         </table>
       </div>
     </div>
@@ -139,7 +141,7 @@ export default {
       selectedProduit2: '',
       produits: [],
       causes: [{ id: 1, nom: "KO" }, { id: 2, nom: "Manque Train" }, { id: 3, nom: "Autre" }],
-      poles: [{ id: 1, nom: "Coloration" }, { id: 2, nom: "Coupe" }, { id: 3, nom: "Embossage/Filetage" }, { id: 1, nom: "Encollage / Rembordage" }, { id: 1, nom: "Marquage" }, { id: 1, nom: "Parage / Refente" }, { id: 1, nom: "Piquage Main" }, { id: 1, nom: "Préguttage / Guttage" }, { id: 1, nom: "Surcoupe" }],
+      poles: [{ id: 1, nom: "Coloration" }, { id: 2, nom: "Coupe" }, { id: 3, nom: "Embossage/Filetage" }, { id: 4, nom: "Encollage / Rembordage" }, { id: 5, nom: "Marquage" }, { id: 6, nom: "Parage / Refente" }, { id: 7, nom: "Piquage Main" }, { id: 8, nom: "Préguttage / Guttage" }, { id: 9, nom: "Surcoupe" }],
       tableauData: [],
       tableauData2: [],
     };
@@ -201,7 +203,6 @@ export default {
       }
     },
     async Submit() {
-      alert(this.selectedValue)
         if(this.selectedValue == "mise")
         {
             await this.AddMise()
