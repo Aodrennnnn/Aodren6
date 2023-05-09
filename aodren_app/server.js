@@ -50,7 +50,6 @@ app.post('/addprise', (req, res) => {
   db.run(
     'INSERT INTO Prise (pole, id_piece, cause, quantite, date) VALUES (?, ?, ?, ?, ?)',
     [pole, id_piece, cause, quantite, date],
-    console.log("ok2")
   );
 });
 
@@ -68,7 +67,6 @@ app.post('/addmise', (req, res) => {
   db.run(
     'INSERT INTO Mise (pole, id_piece, quantite, date) VALUES (?, ?, ?, ?)',
     [pole, id_piece, quantite, date],
-    console.log("ok")
   );
 });
 
